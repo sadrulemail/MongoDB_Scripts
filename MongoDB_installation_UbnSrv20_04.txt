@@ -36,10 +36,12 @@ CMD: chown mongodb:mongodb /var/data/mongodb2
 3. Copy mongodb config file from default location for new instance
 CMD: cp /etc/mongod.conf /var/data/mongodb2/mongod2.conf
 4. Modify new config file mongod2.conf for new instance(can use WinSCP or command)
+sample config file: https://github.com/sadrulemail/MongoDB_Scripts/blob/main/mongodb2.conf
 set "dbPath /var/data/mongodb2" and port "27018" -- default port 27017
 5. Create service for new instance
 CMD: cd /lib/systemd/system and cp mongod.service mongod2.service
 6. Open service file mongod2.service in text editor, finally modify config file in ExecStart corresponding to service name
+sample service file: https://github.com/sadrulemail/MongoDB_Scripts/blob/main/mongodb3.service 
 7. Start service for new instance, relavent miscellaneous commands 
 CMD: sudo systemctl start mongod2.service
 sudo systemctl stop mongod2.service
