@@ -1,0 +1,59 @@
+**********************************************
+Author:Sadrul
+Linkedin Profile:https://www.linkedin.com/in/sadrulalom/
+*********************************************
+MongoDB 6 community edition installation
+---------------------------------------
+1. install gnupg, sometimes it's already installed.
+CMD:sudo apt-get update AND
+sudo apt-get install gnupg
+2. importing public key
+CMD:wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+3. Create a list file for MongoDB
+CMD:echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+4. update local packages
+CMD:sudo apt-get update
+5. Install the MongoDB packages
+CMD:sudo apt-get install -y mongodb-org OR
+sudo apt-get install -y mongodb-org=6.0.0 mongodb-org-database=6.0.0 mongodb-org-server=6.0.0 mongodb-mongosh=6.0.0 mongodb-org-mongos=6.0.0 mongodb-org-tools=6.0.0
+6. Default data directory- /var/lib/mongodb, Log directory- /var/log/mongodb, Config file- /etc/mongod.conf
+7. Administative commands
+CMD: Start MongoDB- sudo systemctl start mongod
+     Stop mongoDB- sudo systemctl stop mongod
+     Restart mongoDB- sudo systemctl restart mongod
+     Check Status- sudo systemctl status mongod
+8. register mongodb to start when machine start/reboot
+CMD: sudo systemctl enable mongod
+9. Remote connection for mongoDB, edit mongod.conf file, go "network interfaces" then add bindIp: 127.0.0.1,mongodb_srv_ip, finally restart service
+
+
+Setup new instance for MongoDB
+-----------------------------------------
+1. create a direcory where you like
+CMD:mkdir /var/data and mkdir /var/data/mongodb2
+2. Assign ownership to mongodb
+CMD: chown mongodb:mongodb /var/data/mongodb2
+3. Copy mongodb config file from default location for new instance
+CMD: cp /etc/mongod.conf /var/data/mongodb2/mongod2.conf
+4. Modify new config file mongod2.conf for new instance(can use WinSCP or command)
+set "dbPath /var/data/mongodb2" and port "27018" -- default port 27017
+5. Create service for new instance
+CMD: cd /lib/systemd/system and cp mongod.service mongod2.service
+6. Open service file mongod2.service in text editor, finally modify config file in ExecStart corresponding to service name
+7. Start service for new instance, relavent miscellaneous commands 
+CMD: sudo systemctl start mongod2.service
+sudo systemctl stop mongod2.service
+sudo systemctl restart mongod2.service
+sudo systemctl status mongod2.service
+8. Connect to new instance & check version
+CMD: mongosh --port 27018 and db.version();
+
+Uninstall MongoDB Community Edition
+------------------------------------
+1. Stop MongoDB
+CMD: sudo service mongod stop
+2. Remove Packages
+CMD: sudo apt-get purge mongodb-org*
+3.Remove Data Directories
+CMD:sudo rm -r /var/log/mongodb
+sudo rm -r /var/lib/mongodb
