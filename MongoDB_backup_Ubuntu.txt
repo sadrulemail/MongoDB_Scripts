@@ -1,0 +1,22 @@
+**********************************************
+Author:Sadrul
+Linkedin Profile:https://www.linkedin.com/in/sadrulalom/
+*********************************************
+
+MongoDB backup scripts
+--------------------------
+
+/var/mongobackups/
+
+sudo mongodump --db test --out /var/mongobackups/
+
+sudo mongodump --db test --out /var/mongobackups/`date +"%y%m%d"`
+sudo mongodump --db test --out /var/mongobackups/`date +"%Y%m%d"`
+
+find /var/mongobackups/ -mtime +7 -exec rm -rf {} \;
+
+sudo mongodump --db test --gzip --out /var/mongobackups/`date +"%Y%m%d"`
+
+sudo mongodump --out /var/mongobackups/`date +"%y%m%d"`
+
+sudo mongodump --db test --port 27017 --out /var/mongobackups/`date +"%Y%m%d"`
