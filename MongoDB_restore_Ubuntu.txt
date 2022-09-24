@@ -1,0 +1,21 @@
+**********************************************
+Author:Sadrul
+Linkedin Profile:https://www.linkedin.com/in/sadrulalom/
+*********************************************
+
+MongoDB Restore script
+---------------------------
+
+1. Single DB restore
+CMD: sudo mongorestore --port 27017 --db LearnMongoBD /var/mongobackups/20220924/LearnMongoBD
+2. Restore all DBs
+CMD: sudo mongorestore --port 27017 --db LearnMongoBD /var/mongobackups/20220924
+3. Resotre without index
+CMD: sudo mongorestore --port 27017 --noIndexRestore --db LearnMongoBD /var/mongobackups/20220924/LearnMongoBD
+4. For Remote host, include hostname/ip
+CMD: sudo mongorestore -h 192.168.37.133:27017 -u sadrul -p 123 -d LearnMongoBD /var/mongobackups/20220924/LearnMongoBD
+5. To override/clean restore on the existing DB
+CMD:sudo mongorestore --port 27017 --drop --db LearnMongoBD /var/mongobackups/20220924/LearnMongoBD
+6. Resotre with a diffrent DB name
+CMD:sudo mongorestore --port 27017 --db LearnMongoBD_IssueTrack /var/mongobackups/20220924/LearnMongoBD
+
