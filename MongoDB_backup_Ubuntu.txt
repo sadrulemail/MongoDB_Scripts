@@ -5,18 +5,19 @@ Linkedin Profile:https://www.linkedin.com/in/sadrulalom/
 
 MongoDB backup scripts
 --------------------------
-
-/var/mongobackups/
-
-sudo mongodump --db test --out /var/mongobackups/
-
-sudo mongodump --db test --out /var/mongobackups/`date +"%y%m%d"`
-sudo mongodump --db test --out /var/mongobackups/`date +"%Y%m%d"`
-
-find /var/mongobackups/ -mtime +7 -exec rm -rf {} \;
-
-sudo mongodump --db test --gzip --out /var/mongobackups/`date +"%Y%m%d"`
-
-sudo mongodump --out /var/mongobackups/`date +"%y%m%d"`
-
-sudo mongodump --db test --port 27017 --out /var/mongobackups/`date +"%Y%m%d"`
+1. create a directory for backup files
+CMD:mkdir /var/mongobackups
+2. backup script for single DB. included port number in case there have multiple DB instance.
+CMD: sudo mongodump --db test --port 27017 --out /var/mongobackups/`date +"%Y%m%d"`
+3. backup scripts for all DBs.
+CMD: sudo mongodump --port 27017 --out /var/mongobackups/`date +"%Y%m%d"`
+4. Clean up backup files those are older than 10 days.
+CMD: sudo find /var/mongobackups/ -mtime +10 -exec rm -rf {} \;
+5. create a bash file for schedule backup which will be run through crobtab job.
+Sample bash file: https://github.com/sadrulemail/MongoDB_Scripts/blob/main/backup.sh
+6. grant all permissions to bash file.
+CMD: chmod +777 /var/mongobackups/backup.sh
+7. To create cron job, open with nano text editor
+CMD: sudo crontab -e
+8. In my case i put below things to run daily at 1AM
+e.g.: * 1 * * * /var/mongobackups/backup.sh
